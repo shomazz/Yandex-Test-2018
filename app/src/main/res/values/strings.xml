@@ -1,0 +1,11 @@
+<resources>
+
+    <integer name="com_vk_sdk_AppId">6466260</integer>
+
+    <string name="app_name">Yandex</string>
+    <string name="photos_tab_title">Photos</string>
+    <string name="offline_tab_title">Offline</string>
+
+    <string name="photos_load_error_msg">Failed to load photos, please try later</string>
+
+</resources>
