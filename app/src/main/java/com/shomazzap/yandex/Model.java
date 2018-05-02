@@ -81,7 +81,8 @@ public class Model {
 
         @Override
         protected void onPostExecute(Void voids) {
-            if (vkError != null || exception != null) Toast.makeText(context, context.getResources()
+            if (vkError != null || exception != null)
+                Toast.makeText(context, context.getResources()
                     .getString(R.string.photos_load_error_msg), Toast.LENGTH_SHORT);
             else if (callback != null) callback.onLoadComplete(photos);
         }

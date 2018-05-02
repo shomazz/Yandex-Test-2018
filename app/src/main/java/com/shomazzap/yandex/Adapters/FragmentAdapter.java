@@ -1,4 +1,4 @@
-package com.shomazzap.yandex;
+package com.shomazzap.yandex.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
