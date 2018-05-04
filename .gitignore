@@ -1,0 +1,36 @@
+# Android Studio
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.navigation
+output.json 
+
+# Built files
+*.apk
+*.ap_
+
+# Keys
+*.jks
+
+# Dex files
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+
+# Local configuration file
+local.properties
+
+# NDK
+obj/
+.externalNativeBuild

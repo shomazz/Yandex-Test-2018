@@ -16,10 +16,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         this.fragmentCount = fragmentsCount;
     }
 
-
     @Override
     public Fragment getItem(int i) {
-        return new PhotosFragment();
+        return PhotosFragment.newInstance(i);
     }
 
     @Override

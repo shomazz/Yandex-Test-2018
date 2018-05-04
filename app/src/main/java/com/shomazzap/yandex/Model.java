@@ -1,6 +1,5 @@
 package com.shomazzap.yandex;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,15 +19,15 @@ import java.util.ArrayList;
 
 public class Model {
 
-    private final Context context;
-    private final String logTag = getClass().getCanonicalName();
-
-    public Model(Context context) {
-        this.context = context;
-    }
+    private final String logTag = getClass().getSimpleName();
 
     interface LoadPhotosCallback {
         void onLoadComplete(@Nullable ArrayList<VKApiPhoto> photos);
+    }
+
+    public void loadPhotos(int offset, int count, LoadPhotosCallback callback){
+        LoadPhotosTask task = new LoadPhotosTask(offset, count, callback);
+        task.execute();
     }
 
     class LoadPhotosTask extends AsyncTask<Void, Void, Void> {
@@ -54,8 +53,7 @@ public class Model {
                     VKApiConst.ALBUM_ID, Constants.ALBUM_ID,
                     VKApiConst.COUNT, count,
                     VKApiConst.OFFSET, offset));
-            photosRequest.attempts = 2;
-            photosRequest.executeWithListener(new VKRequest.VKRequestListener() {
+            photosRequest.executeSyncWithListener(new VKRequest.VKRequestListener() {
                 @Override
                 public void onComplete(VKResponse response) {
                     try {
@@ -81,10 +79,7 @@ public class Model {
 
         @Override
         protected void onPostExecute(Void voids) {
-            if (vkError != null || exception != null)
-                Toast.makeText(context, context.getResources()
-                    .getString(R.string.photos_load_error_msg), Toast.LENGTH_SHORT);
-            else if (callback != null) callback.onLoadComplete(photos);
+            if (callback != null) callback.onLoadComplete(photos);
         }
     }
 }
