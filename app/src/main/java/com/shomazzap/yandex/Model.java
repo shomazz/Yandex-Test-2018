@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.shomazzap.yandex.Util.Constants;
+import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
@@ -20,6 +21,21 @@ import java.util.ArrayList;
 public class Model {
 
     private final String logTag = getClass().getSimpleName();
+
+    public static String getPreivewLink(VKApiPhoto photo){
+        String link = photo.photo_807;  //links arranged by priority of photo's quality
+        if (link.equals("")) link = photo.photo_604;
+        if (link.equals("")) link = photo.photo_1280;
+        return link;
+    }
+
+    public static String getMaxPhotoQulityLink(VKApiPhoto photo){
+        String link = photo.photo_2560;  //links arranged by priority of photo's quality
+        if (link.equals("")) link = photo.photo_1280;
+        if (link.equals("")) link = photo.photo_807;
+        if (link.equals("")) link = photo.photo_604;
+        return link;
+    }
 
     interface LoadPhotosCallback {
         void onLoadComplete(@Nullable ArrayList<VKApiPhoto> photos);

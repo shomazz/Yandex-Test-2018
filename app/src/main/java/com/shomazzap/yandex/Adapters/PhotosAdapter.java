@@ -1,7 +1,7 @@
 package com.shomazzap.yandex.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.shomazzap.yandex.PhotoView;
 import com.shomazzap.yandex.PhotosPresenter;
 import com.shomazzap.yandex.R;
-import com.vk.sdk.api.model.VKApiPhoto;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -27,7 +27,22 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
     private PhotosPresenter presenter;
     private RequestOptions options = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.DATA)  //Photos will cache to disk before decoding
-            .placeholder(R.drawable.vk_clear_shape);
+            .placeholder(R.drawable.preview_error);
+    // .error(R.drawable.preview_error);
+
+    private RequestListener requestListener = new RequestListener() {
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target,
+                                    boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Object resource, Object model, Target target,
+                                       DataSource dataSource, boolean isFirstResource) {
+            return false;
+        }
+    };
 
     public PhotosAdapter(PhotosPresenter presenter, Context context) {
         this.context = context;
@@ -65,11 +80,9 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
                     .load(path)
                     .transition(withCrossFade())
                     .thumbnail(0.5f)
-                    //.listener(requestListener) TODO: add listener to catch errors
+                    .listener(requestListener)
                     .apply(options)
                     .into(imageView);
         }
-
     }
-
 }

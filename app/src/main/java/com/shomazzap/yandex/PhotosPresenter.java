@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class PhotosPresenter {
 
+    public boolean isLoading;
     private ArrayList<VKApiPhoto> photos;
     private FragmentView fragment;
     private String logTag = getClass().getSimpleName();
@@ -22,10 +23,11 @@ public class PhotosPresenter {
     }
 
     public void onBindPhotoView(int i, PhotoView photoView) {
-        photoView.setAddress(photos.get(i).photo_807);
+        photoView.setAddress(Model.getPreivewLink(photos.get(i)));
     }
 
-    public void loadMoreWalls() {
+    public void loadMoreWalls(final Runnable runnable) {
+        isLoading = true;
         int offset = photos == null ? 0 : photos.size();
         Model model = new Model();
         model.loadPhotos(offset, Constants.PHOTOS_COUNT, new Model.LoadPhotosCallback() {
@@ -33,11 +35,13 @@ public class PhotosPresenter {
             public void onLoadComplete(@Nullable ArrayList<VKApiPhoto> photos) {
                 if (photos != null) addNewPhotos(photos);
                 else showErrorToast(Constants.PHOTOS_LOAD_ERROR, Toast.LENGTH_SHORT);
+                if (runnable != null)runnable.run();
+                isLoading = false;
             }
         });
     }
 
-    private void showErrorToast(String msg, int lengthType){
+    public void showErrorToast(String msg, int lengthType){
         fragment.showMsg(msg, lengthType);
     }
 
