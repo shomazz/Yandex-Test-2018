@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
         tabPhotos = findViewById(R.id.tab_photos);
         tabOffline = findViewById(R.id.tab_offline);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.fragment_view_pager);
 
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(fragmentAdapter);

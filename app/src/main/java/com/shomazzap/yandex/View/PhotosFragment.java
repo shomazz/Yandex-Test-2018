@@ -1,8 +1,10 @@
 package com.shomazzap.yandex.View;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +29,6 @@ public class PhotosFragment extends Fragment implements FragmentView, SwipeRefre
     private PhotosAdapter photosAdapter;
     private PhotosPresenter presenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     private String logTag = getClass().getSimpleName();
 
     public static PhotosFragment newInstance(int fragmentType) {
@@ -36,6 +37,17 @@ public class PhotosFragment extends Fragment implements FragmentView, SwipeRefre
         PhotosFragment fragment = new PhotosFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void openFullScreenPhotoFragment(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.POSITION, position);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FullScreenPhotoFragment newFragment = FullScreenPhotoFragment.newInstance(presenter);
+        newFragment.setArguments(bundle);
+        ft.replace(R.id.fragment_frame, newFragment);
+        ft.commit();
     }
 
     @Override
@@ -85,8 +97,14 @@ public class PhotosFragment extends Fragment implements FragmentView, SwipeRefre
     }
 
     @Override
-    public void showMsg(String msg, int lengthType) {
-        Toast.makeText(getActivity(), msg, lengthType).show();
+    public Context getContext() {
+        return getActivity();
+    }
+
+    @Override
+    public void showMsg(int stringId, int lengthType) {
+        Toast.makeText(getActivity(), getActivity().getResources().getString(stringId),
+                lengthType).show();
     }
 
     @Override

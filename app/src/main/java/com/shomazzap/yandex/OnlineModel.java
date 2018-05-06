@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Model {
+public class OnlineModel {
 
     private final String logTag = getClass().getSimpleName();
 

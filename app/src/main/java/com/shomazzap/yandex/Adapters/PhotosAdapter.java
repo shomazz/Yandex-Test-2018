@@ -27,8 +27,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
     private PhotosPresenter presenter;
     private RequestOptions options = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.DATA)  //Photos will cache to disk before decoding
-            .placeholder(R.drawable.preview_error);
-    // .error(R.drawable.preview_error);
+            .placeholder(R.drawable.preview_error); // If load failed user will see that there is
+                                                    // an image with broken link
 
     private RequestListener requestListener = new RequestListener() {
         @Override
@@ -57,8 +57,14 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
     }
 
     @Override
-    public void onBindViewHolder(PhotosAdapter.ImageViewHolder holder, int position) {
+    public void onBindViewHolder(PhotosAdapter.ImageViewHolder holder, final int position) {
         presenter.onBindPhotoView(position, holder);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.onPhotoClick(position);
+            }
+        });
     }
 
     @Override
