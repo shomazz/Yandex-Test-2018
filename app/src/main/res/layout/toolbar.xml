@@ -9,4 +9,12 @@
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+    app:theme="@style/ThemeOverlay.AppCompat.Dark" >
+
+    <ProgressBar
+        android:id="@+id/progress_bar_from_tb"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.v7.widget.Toolbar>

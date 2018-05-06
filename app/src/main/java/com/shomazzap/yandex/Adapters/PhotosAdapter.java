@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.shomazzap.yandex.PhotoView;
+import com.shomazzap.yandex.Interfaces.PhotoView;
 import com.shomazzap.yandex.PhotosPresenter;
 import com.shomazzap.yandex.R;
 
@@ -57,12 +57,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ImageViewH
     }
 
     @Override
-    public void onBindViewHolder(PhotosAdapter.ImageViewHolder holder, final int position) {
+    public void onBindViewHolder(final PhotosAdapter.ImageViewHolder holder, int position) {
         presenter.onBindPhotoView(position, holder);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.onPhotoClick(position);
+                presenter.onPhotoClick(holder.getAdapterPosition());
             }
         });
     }

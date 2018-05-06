@@ -15,8 +15,6 @@ public class MainActivity extends FragmentActivity {
     private final String logTag = getClass().getSimpleName();
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private TabItem tabPhotos;
-    private TabItem tabOffline;
     private FragmentAdapter fragmentAdapter;
     private ViewPager viewPager;
 
@@ -24,18 +22,27 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        viewPager = findViewById(R.id.fragment_view_pager);
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.app_name));
-
         tabLayout = findViewById(R.id.tablayout);
-        tabPhotos = findViewById(R.id.tab_photos);
-        tabOffline = findViewById(R.id.tab_offline);
 
-        viewPager = (ViewPager) findViewById(R.id.fragment_view_pager);
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),
+                tabLayout.getTabCount(), this);
 
-        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        toolbar.setTitle(getResources().getString(R.string.app_name));
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+    public Toolbar getToolbar(){
+        return toolbar;
+    }
+
+    @Override
+    public void onBackPressed() {
+        fragmentAdapter.getFragment(0).getPresenter().onBackPressed();
+    }
+
 }
 

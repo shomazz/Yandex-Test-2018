@@ -1,10 +1,17 @@
 package com.shomazzap.yandex;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
+import com.shomazzap.yandex.Interfaces.MyFragment;
+import com.shomazzap.yandex.Interfaces.PhotoView;
+import com.shomazzap.yandex.Interfaces.PhotosFragmentView;
 import com.shomazzap.yandex.Util.Constants;
+import com.shomazzap.yandex.View.FullScreenPhotoFragment;
+import com.shomazzap.yandex.View.PhotosFragment;
 import com.vk.sdk.api.model.VKApiPhoto;
 
 import java.util.ArrayList;
@@ -13,12 +20,14 @@ public class PhotosPresenter {
 
     public boolean isLoading;
     private ArrayList<VKApiPhoto> photos;
-    private FragmentView fragment;
+    private PhotosFragmentView fragment;
     private String logTag = getClass().getSimpleName();
+    private Class currentFragment;
 
-    public PhotosPresenter(FragmentView fragmentView) {
+    public PhotosPresenter(PhotosFragmentView photosFragmentView) {
         photos = new ArrayList<>();
-        fragment = fragmentView;
+        fragment = photosFragmentView;
+        currentFragment = PhotosFragment.class;
     }
 
     public void onBindPhotoView(int i, PhotoView photoView) {
@@ -40,8 +49,14 @@ public class PhotosPresenter {
         });
     }
 
+    public void onBackPressed(){
+        if (currentFragment == FullScreenPhotoFragment.class)
+            onCloseFullScreenView();
+        else fragment.showExitDialog();
+    }
+
     public void showErrorToast(@StringRes int id, int lengthType){
-        fragment.showMsg(id, lengthType);
+        ((MyFragment)fragment).showMsg(id, lengthType);
     }
 
     private void addNewPhotos(ArrayList<VKApiPhoto> photos){
@@ -55,10 +70,15 @@ public class PhotosPresenter {
 
     public void onPhotoClick(int position){
         fragment.openFullScreenPhotoFragment(position);
+        currentFragment = FullScreenPhotoFragment.class;
+    }
+
+    public void onCloseFullScreenView(){
+        fragment.closeFullScreenPhotoFragment();
+        currentFragment = PhotosFragment.class;
     }
 
     public int getCount() {
         return photos.size();
     }
-
 }

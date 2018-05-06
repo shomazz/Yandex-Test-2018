@@ -54,6 +54,7 @@ public class OnlineModel {
         private Exception exception;
         private VKError vkError;
         private ArrayList<VKApiPhoto> photos;
+        public int albumSize;
 
         LoadPhotosTask(int offset, int count, LoadPhotosCallback callback) {
             this.offset = offset;   // offset required to select a specific subset of photos
@@ -74,7 +75,7 @@ public class OnlineModel {
                 public void onComplete(VKResponse response) {
                     try {
                         Log.d(logTag, response.json.toString());
-                        //albumSize = response.json.getJSONObject("response").getInt("count");
+                        albumSize = response.json.getJSONObject("response").getInt("count");
                         for (int i = 0; i < count; i++)
                             photos.add(new VKApiPhoto((JSONObject) response.json.getJSONObject("response")
                                     .getJSONArray("items").get(i)));

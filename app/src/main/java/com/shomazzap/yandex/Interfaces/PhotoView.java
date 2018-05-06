@@ -1,4 +1,4 @@
-package com.shomazzap.yandex;
+package com.shomazzap.yandex.Interfaces;
 
 public interface PhotoView {
 

@@ -5,6 +5,12 @@
     <string name="bad_url">Unfortunately photo unavailable :(</string>
     <string name="load_error">Failed to load, please try later</string>
 
+    <string name="exit">Exit</string>
+    <string name="exit_confirmation_msg">Do you really want to exit?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="app_name">YandexPhotos</string>
     <string name="photos_tab_title">Photos</string>
     <string name="offline_tab_title">Offline</string>
